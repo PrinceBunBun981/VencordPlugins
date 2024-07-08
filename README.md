@@ -2,10 +2,13 @@
 All of the public Vencord plugins I've worked on.
 
 > [!NOTE]
-> At the moment these plugins can only be installed manually, you can find a guide on how to install the Development Build of Vencord [here](https://github.com/Vendicated/Vencord/blob/main/docs/1_INSTALLING.md) and the Plugins Guide [here](https://github.com/Vendicated/Vencord/blob/main/docs/2_PLUGINS.md).
+> At the moment these plugins can only be installed manually, you can find a guide on how to install custom plugins [here](https://docs.vencord.dev/installing/custom-plugins/).
 
 ## Bunny Girls
 Adds a built-in command to post a random gif of a bunny girl in chat.
 
-## VoiceChatMention
-Adds a context menu button to put mentions of all users in a voice chat in the text box.
+## VoiceChatMention (https://github.com/Vendicated/Vencord/pull/2341/)
+Adds a context menu button to put mentions of all users in your voice chat in the text box.
+
+## LastOnline
+Adds a last online indicator under usernames in your DM list and guild and GDM member list.
