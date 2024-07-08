@@ -1,6 +1,6 @@
 import definePlugin from "@utils/types";
 import { moment } from "@webpack/common";
-import { findByPropsLazy } from "@webpack";
+import { findByProps } from "@webpack";
 import { React } from "@webpack/common";
 import { User } from "discord-types/general";
 
@@ -77,21 +77,17 @@ export default definePlugin({
         return presenceStatus && presenceStatus.hasBeenOnline && presenceStatus.lastOffline !== null;
     },
     buildRecentlyOffline(user: User) {
-        const subTextClass = findByPropsLazy('subText').subText;
-        const memberClasses = findByPropsLazy('memberInner', 'activity', 'activityText');
-        const textRulerClass = findByPropsLazy('textRuler').textRuler;
+        const subTextClass = findByProps("subText");
+        const activityClass = findByProps("memberInner", "activity", "activityText");
 
         const presenceStatus = recentlyOnlineList.get(user.id);
         const formattedTime = presenceStatus && presenceStatus.lastOffline !== null
             ? formatTime(presenceStatus.lastOffline)
             : "";
         return (
-            <div className={subTextClass}>
-                <div className={memberClasses.activity}>
-                    <div className={memberClasses.activityText}>
-                        Online <strong>{formattedTime} ago</strong>
-                    </div>
-                    <div className={`${textRulerClass} ${memberClasses.activityText}`} aria-hidden="true">
+            <div className={subTextClass.subText}>
+                <div className={activityClass.activity}>
+                    <div className={activityClass.activityText}>
                         Online <strong>{formattedTime} ago</strong>
                     </div>
                 </div>
