@@ -12,3 +12,6 @@ Adds a context menu button to put mentions of all users in your voice chat in th
 
 ## LastOnline
 Adds a last online indicator under usernames in your DM list and guild and GDM member list.
+
+## QuestsHomeNav
+Adds a button to quickly go to quests in the DM list.
