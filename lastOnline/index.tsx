@@ -77,19 +77,16 @@ export default definePlugin({
         return presenceStatus && presenceStatus.hasBeenOnline && presenceStatus.lastOffline !== null;
     },
     buildRecentlyOffline(user: User) {
-        const subTextClass = findByProps("subText");
-        const activityClass = findByProps("memberInner", "activity", "activityText");
+        const activityClass = findByProps("interactiveSelected", "interactiveSystemDM", "activity", "activityText", "subtext");
 
         const presenceStatus = recentlyOnlineList.get(user.id);
         const formattedTime = presenceStatus && presenceStatus.lastOffline !== null
             ? formatTime(presenceStatus.lastOffline)
             : "";
         return (
-            <div className={subTextClass.subText}>
-                <div className={activityClass.activity}>
-                    <div className={activityClass.activityText}>
-                        Online <strong>{formattedTime} ago</strong>
-                    </div>
+            <div className={activityClass.activity}>
+                <div className={activityClass.activityText}>
+                    <>Online <strong>{formattedTime} ago</strong></>
                 </div>
             </div>
         );
