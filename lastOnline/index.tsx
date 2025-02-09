@@ -57,37 +57,42 @@ export default definePlugin({
         }
     },
     patches: [
+        // Patches the guild member list
         {
-            find: "Z.MEMBER_LIST_ITEM_AVATAR_DECORATION_PADDING);",
+            find: ".MEMBER_LIST_ITEM_AVATAR_DECORATION_PADDING)",
             replacement: {
-                match: /(\(0,\i.Z\)\(\i,(\i),\i\);)(return\(0,\i.jsx)/,
-                replace: "$1if($self.shouldShowRecentlyOffline($2)){return $self.buildRecentlyOffline($2)}$3"
+                match: /(.OFFLINE;return null==(\i).{0,1000}subText:)/,
+                replace: "$1$self.shouldShowRecentlyOffline($2)?$self.buildRecentlyOffline($2):"
             }
         },
+
+        // Patches the DM list
         {
             find: "PrivateChannel.renderAvatar",
             replacement: {
-                match: /(user:(\i)}\):)/,
+                match: /("PrivateChannel".{0,100}user:(\i).{0,100}}\):)/,
                 replace: "$1$self.shouldShowRecentlyOffline($2)?$self.buildRecentlyOffline($2):"
             }
         }
     ],
     shouldShowRecentlyOffline(user: User) {
+        if (!user) return false;
+
         const presenceStatus = recentlyOnlineList.get(user.id);
         return presenceStatus && presenceStatus.hasBeenOnline && presenceStatus.lastOffline !== null;
     },
     buildRecentlyOffline(user: User) {
-        const activityClass = findByProps("interactiveSelected", "interactiveSystemDM", "activity", "activityText", "subtext");
+        if (!user) return <></>;
+
+        const subtext = findByProps("interactiveSelected", "interactiveSystemDM", "subtext").subtext;
 
         const presenceStatus = recentlyOnlineList.get(user.id);
         const formattedTime = presenceStatus && presenceStatus.lastOffline !== null
             ? formatTime(presenceStatus.lastOffline)
             : "";
         return (
-            <div className={activityClass.activity}>
-                <div className={activityClass.activityText}>
-                    <>Online <strong>{formattedTime} ago</strong></>
-                </div>
+            <div className={subtext}>
+                <>Online <strong>{formattedTime} ago</strong></>
             </div>
         );
     }
