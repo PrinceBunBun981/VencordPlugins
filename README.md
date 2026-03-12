@@ -8,8 +8,8 @@ All of the public Vencord plugins I've worked on.
 ## LastOnline
 Adds a last online indicator under usernames in your DM list and guild and GDM member list.
 
-[!NOTE]
-Discord made it a bit more difficult to grab the subText css class so I've simply grabbed the styles in `lastOnline.css`, make sure you download both if you want the subtext to look correct.
+> [!NOTE]
+> Discord made it a bit more difficult to grab the subText css class so I've simply grabbed the styles in `lastOnline.css`, make sure you download both if you want the subtext to look correct.
 
 # Unmaintained
 ## Bunny Girls
