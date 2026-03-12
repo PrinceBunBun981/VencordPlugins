@@ -1,8 +1,8 @@
 import definePlugin from "@utils/types";
 import { moment } from "@webpack/common";
-import { findByProps } from "@webpack";
 import { React } from "@webpack/common";
-import { User } from "discord-types/general";
+import { User } from "@vencord/discord-types";
+import "./lastOnline.css";
 
 interface PresenceStatus {
     hasBeenOnline: boolean;
@@ -61,8 +61,8 @@ export default definePlugin({
         {
             find: ".MEMBER_LIST_ITEM_AVATAR_DECORATION_PADDING)",
             replacement: {
-                match: /(.OFFLINE;return null==(\i).{0,1000}subText:)/,
-                replace: "$1$self.shouldShowRecentlyOffline($2)?$self.buildRecentlyOffline($2):"
+                match: /(subText:)(.{0,150}user:(\i))/,
+                replace: "$1$self.shouldShowRecentlyOffline($3)?$self.buildRecentlyOffline($3):$2"
             }
         },
 
@@ -70,7 +70,7 @@ export default definePlugin({
         {
             find: "PrivateChannel.renderAvatar",
             replacement: {
-                match: /({id:(\i).id.{0,1000}subText:)/,
+                match: /({id:(\i).id.{0,2500}subText:)/,
                 replace: "$1$self.shouldShowRecentlyOffline($2.recipients.length === 1 ? { id: $2.recipients[0] } : null)?$self.buildRecentlyOffline({ id: $2.recipients[0] }):"
             }
         }
@@ -84,14 +84,12 @@ export default definePlugin({
     buildRecentlyOffline(user: User) {
         if (!user) return <></>;
 
-        const subtext = findByProps("interactiveSelected", "interactiveSystemDM", "subtext").subtext;
-
         const presenceStatus = recentlyOnlineList.get(user.id);
         const formattedTime = presenceStatus && presenceStatus.lastOffline !== null
             ? formatTime(presenceStatus.lastOffline)
             : "";
         return (
-            <div className={subtext}>
+            <div className={"lo-subtext"}>
                 <>Online <strong>{formattedTime} ago</strong></>
             </div>
         );
